@@ -1,6 +1,5 @@
 const hre = require("hardhat");
 
-
 async function getBalances(address){
   const balanceBigInt = await hre.ethers.provider.getBalance(address);
   return hre.ethers.utils.formatEther(balanceBigInt);
@@ -18,7 +17,7 @@ async function consoleMemos(memos){
   for(const memo of memos){
     const timestamp = memo.timestamp;
     const name = memo.name;
-    const from = memo.address;
+    const from = memo.from; // address
     const message = memo.message;
 
     console.log(
@@ -28,7 +27,7 @@ async function consoleMemos(memos){
 }
 
 async function main() {
-  const [owner, from1, from2, from3] = await hre.ethers.getSigners();
+  const [owner, from1, from2, from3] = await hre.ethers.getSigners(); // create users with some test balance
   const chai =  await hre.ethers.getContractFactory("chai"); // calling contract named chai
   const contract =await chai.deploy();//creating instance of contact(chai)
 
@@ -40,12 +39,14 @@ async function main() {
   await consoleBalance(addresses);
   
   const amount = {value:hre.ethers.utils.parseEther("1")};
-  await contract.connect(from1).buyChai("From1","Vey Nice chai1", amount);
-  await contract.connect(from2).buyChai("From2","Vey Nice chai2", amount);
-  await contract.connect(from3).buyChai("From3","Vey Nice chai3", amount);
+  await contract.connect(from1).buyChai("From1","Very Nice chai1", amount);
+  await contract.connect(from2).buyChai("From2","Very Nice chai2", amount);
+  await contract.connect(from3).buyChai("From3","Very Nice chai3", amount);
 
   console.log('after buying chai');
   await consoleBalance(addresses);
+
+  consoleMemos(await contract.getMemos());
 }
 
 
