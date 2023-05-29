@@ -12,3 +12,6 @@ main().catch((error) => {
     console.error(error);
     process.exitCode = 1;
 });
+
+//npx hardhat run --network mumbai scripts/finalDeploy.js
+//Address of contract : 0xeC5d9C15470ff8a71510EcED2874e6084be73b1C
