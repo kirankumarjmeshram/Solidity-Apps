@@ -1,6 +1,9 @@
 import abi from "./contract/chai.json";
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import Buy from "./components/Buy";
+import Memos from "./components/Memos";
+
 import "./App.css";
 
 
@@ -39,7 +42,8 @@ function App() {
   }, []);
   console.log(state);
   return <div className="App">
-    Hello World
+    <Buy></Buy>
+    <Memos></Memos>
   </div>;
 }
 
