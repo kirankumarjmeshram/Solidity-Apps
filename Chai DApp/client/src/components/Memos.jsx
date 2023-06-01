@@ -1,9 +1,37 @@
-import React from 'react'
+import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+const Memos = ({ state }) => {
+  const [memos, setMemos] = useState([]);
+  const { contract } = state;
 
-function Memos() {
+  useEffect(() => {
+    const memosMessage = async () => {
+      const memos = await contract.getMemos();
+      setMemos(memos);
+    };
+    contract && memosMessage();
+  }, [contract]);
+
   return (
-    <div>Memos</div>
-  )
-}
+    <>
+      <p>Details</p>
+      {memos.map((memo) => {
+        return (
+          <div key={uuidv4()}>
+            <table>
+              <tbody>
+                <tr>
+                  <td>{memo.name}</td>
+                  <td>{memo.message}</td>
+                  <td>{memo.from}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
-export default Memos
+export default Memos;
